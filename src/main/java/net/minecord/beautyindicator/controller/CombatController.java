@@ -78,7 +78,7 @@ public class CombatController implements Listener {
         }.runTaskTimerAsynchronously(beautyIndicator, 0, 20);
     }
 
-    public void addToCombat(LivingEntity entity, String entityName) {
+    private void addToCombat(LivingEntity entity, String entityName) {
         if(entity.isDead())
             return;
         if(!entitiesInCombat.containsKey(entity))
