@@ -19,6 +19,7 @@ import org.bukkit.plugin.java.annotation.plugin.Website;
 @Website("https://minecord.net")
 public class BeautyIndicator extends JavaPlugin {
 
+    private final String pluginPrefix = "&b[BeautyIndicator] &7";
     private CombatController combatController;
     private PlayerController playerController;
 
@@ -29,9 +30,9 @@ public class BeautyIndicator extends JavaPlugin {
 
         getCommand("beautyindicator").setExecutor(new ReloadCommand(this));
 
-        Bukkit.getConsoleSender().sendMessage(ChatColor.translateAlternateColorCodes('&', "&b[BeautyIndicator] &aPlugin successfully enabled!"));
-        Bukkit.getConsoleSender().sendMessage(ChatColor.translateAlternateColorCodes('&', "&b[BeautyIndicator] &7Spigot page: &ahttps://www.spigotmc.org/resources/.57546/"));
-        Bukkit.getConsoleSender().sendMessage(ChatColor.translateAlternateColorCodes('&', "&b[BeautyIndicator] &7Author: &ehaelexuis &a[https://haelexuis.eu]"));
+        Bukkit.getConsoleSender().sendMessage(ChatColor.translateAlternateColorCodes('&', pluginPrefix + "&aPlugin successfully enabled!"));
+        Bukkit.getConsoleSender().sendMessage(ChatColor.translateAlternateColorCodes('&', pluginPrefix + "Spigot page: &ahttps://www.spigotmc.org/resources/.57546/"));
+        Bukkit.getConsoleSender().sendMessage(ChatColor.translateAlternateColorCodes('&', pluginPrefix + "Author: &eRixafy &a[https://haelexuis.eu]"));
 
         Bukkit.getPluginManager().registerEvents(new CombatListener(this), this);
     }
@@ -39,13 +40,15 @@ public class BeautyIndicator extends JavaPlugin {
     public void onReload() {
         saveDefaultConfig();
         reloadConfig();
+
         combatController.onReload(getConfig());
     }
 
     @Override
     public void onDisable() {
         combatController.onDisable();
-        Bukkit.getConsoleSender().sendMessage(ChatColor.translateAlternateColorCodes('&', "&b[BeautyIndicator] &6Plugin successfully disabled!"));
+
+        Bukkit.getConsoleSender().sendMessage(ChatColor.translateAlternateColorCodes('&', pluginPrefix + "&6Plugin successfully disabled!"));
     }
 
     public CombatController getCombatController() {
