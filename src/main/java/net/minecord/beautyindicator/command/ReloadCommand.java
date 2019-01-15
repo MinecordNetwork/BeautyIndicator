@@ -15,7 +15,7 @@ public class ReloadCommand implements CommandExecutor {
 
     @Override
     public boolean onCommand(CommandSender commandSender, Command command, String s, String[] strings) {
-        if(commandSender.hasPermission("beautyindicator.reload") && strings.length > 0 && strings[0].equals("reload")) {
+        if (commandSender.hasPermission("beautyindicator.reload") && strings.length > 0 && strings[0].equals("reload")) {
             beautyIndicator.onReload();
             commandSender.sendMessage(ChatColor.translateAlternateColorCodes('&', "&b[BeautyIndicator] &aPlugin was successfully reloaded"));
             return true;

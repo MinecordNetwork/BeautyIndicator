@@ -54,7 +54,7 @@ public class CombatController implements Listener {
         excludedMobs = config.getStringList("excluded-mobs");
         hitByItself = config.getBoolean("hit-by-itself");
         activeColorMultiple = config.getBoolean("active-color-multiple.enabled");
-        if(activeColorMultiple) {
+        if (activeColorMultiple) {
             firstActiveColor = config.getString("active-color-multiple.one-third");
             secondActiveColor = config.getString("active-color-multiple.two-thirds");
             thirdActiveColor = config.getString("active-color-multiple.three-thirds");
@@ -68,7 +68,7 @@ public class CombatController implements Listener {
             @Override
             public void run() {
                 entitiesInCombat.forEach((entity, entityCombat) -> {
-                    if(entityCombat.getSeconds() > 0)
+                    if (entityCombat.getSeconds() > 0)
                         entityCombat.doUpdate();
                     else {
                         removeFromCombat(entity);
@@ -79,30 +79,30 @@ public class CombatController implements Listener {
     }
 
     private void addToCombat(LivingEntity entity, String entityName) {
-        if(entity.isDead())
+        if (entity.isDead())
             return;
-        if(!entitiesInCombat.containsKey(entity))
+        if (!entitiesInCombat.containsKey(entity))
             entitiesInCombat.put(entity, new Combat(entityName, showTime));
         else
             entitiesInCombat.get(entity).resetSeconds();
     }
 
     public void removeFromCombat(LivingEntity entity) {
-        if(entity != null && entitiesInCombat.containsKey(entity)) {
+        if (entity != null && entitiesInCombat.containsKey(entity)) {
             String customName = entitiesInCombat.get(entity).getNameToRestore();
             entity.setCustomName(customName);
-            if(customName == null)
+            if (customName == null)
                 entity.setCustomNameVisible(false);
             entitiesInCombat.remove(entity);
         }
     }
 
     public void onHit(Entity entity) {
-        if(excludedMobs.contains(entity.getType().toString()))
+        if (excludedMobs.contains(entity.getType().toString()))
             return;
 
         LivingEntity livingEntity = (LivingEntity) entity;
-        if(livingEntity.getHealth() <= 0 || livingEntity.isDead()) {
+        if (livingEntity.getHealth() <= 0 || livingEntity.isDead()) {
             removeFromCombat(livingEntity);
             return;
         }
@@ -112,8 +112,9 @@ public class CombatController implements Listener {
                 StringBuilder hearts = new StringBuilder();
 
                 double multiplier = beautyIndicator.getConfig().getDouble("mob-multipliers." + entity.getType().toString());
-                if(multiplier == 0)
+                if (multiplier == 0) {
                     multiplier = 1;
+                }
 
                 int maxHealth = (int) ((int) livingEntity.getAttribute(Attribute.GENERIC_MAX_HEALTH).getValue() / 2 * multiplier);
                 int newHealth = (int) ((int) livingEntity.getHealth() / 2 * multiplier);
@@ -121,16 +122,16 @@ public class CombatController implements Listener {
 
                 String newColor = thirdActiveColor;
 
-                if(activeColorMultiple) {
-                    if(newHealth <= maxHealth * 0.33)
+                if (activeColorMultiple) {
+                    if (newHealth <= maxHealth * 0.33)
                         newColor = firstActiveColor;
-                    else if(newHealth <= maxHealth * 0.66)
+                    else if (newHealth <= maxHealth * 0.66)
                         newColor = secondActiveColor;
                 }
 
-                for(int i = newHealth; i > 0; i--)
+                for (int i = newHealth; i > 0; i--)
                     hearts.append(newColor).append(character);
-                for(int i = leftHealth; i > 0; i--)
+                for (int i = leftHealth; i > 0; i--)
                     hearts.append(neutralColor).append(character);
                 hearts.append(" ");
 
