@@ -2,6 +2,7 @@ package net.minecord.beautyindicator.listener;
 
 import net.minecord.beautyindicator.BeautyIndicator;
 import org.bukkit.Material;
+import org.bukkit.entity.ArmorStand;
 import org.bukkit.entity.LivingEntity;
 import org.bukkit.event.EventHandler;
 import org.bukkit.event.EventPriority;
@@ -22,7 +23,7 @@ public class CombatListener implements Listener {
 
     @EventHandler(priority = EventPriority.LOWEST)
     public void onEntityHitByEntity(EntityDamageByEntityEvent e) {
-        if(!(e.getEntity() instanceof LivingEntity))
+        if(!(e.getEntity() instanceof LivingEntity || e.getEntity() instanceof ArmorStand))
             return;
         if(!beautyIndicator.getCombatController().isHitByItself())
             beautyIndicator.getCombatController().onHit(e.getEntity());
@@ -30,7 +31,7 @@ public class CombatListener implements Listener {
 
     @EventHandler(priority = EventPriority.LOWEST)
     public void onEntityHit(EntityDamageEvent e) {
-        if(!(e.getEntity() instanceof LivingEntity))
+        if(!(e.getEntity() instanceof LivingEntity || e.getEntity() instanceof ArmorStand))
             return;
         if(beautyIndicator.getCombatController().isHitByItself())
             beautyIndicator.getCombatController().onHit(e.getEntity());
@@ -38,7 +39,7 @@ public class CombatListener implements Listener {
 
     @EventHandler(priority = EventPriority.HIGHEST)
     public void onEntityHitByEntityCheck(EntityDamageByEntityEvent e) {
-        if(!(e.getEntity() instanceof LivingEntity))
+        if(!(e.getEntity() instanceof LivingEntity || e.getEntity() instanceof ArmorStand))
             return;
         if(!beautyIndicator.getCombatController().isHitByItself()) {
             LivingEntity livingEntity = (LivingEntity) e.getEntity();
