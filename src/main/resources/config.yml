@@ -1,14 +1,13 @@
 # Character in health bar of mob
-
 heart-character: "❤"
+
 # How many seconds should be health showed after hit
-
 show-time: 3
+
 # Color of active (red) heart in name
-
 active-color: "&c"
-# Changing color during time when mob health is decreasing
 
+# Changing color during time when mob health is decreasing
 active-color-multiple:
   enabled: true
   one-third: "&c" #Color when health is under 1/3 and above 0/3
