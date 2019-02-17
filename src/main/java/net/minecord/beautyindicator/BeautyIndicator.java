@@ -32,7 +32,7 @@ public class BeautyIndicator extends JavaPlugin {
 
         Bukkit.getConsoleSender().sendMessage(ChatColor.translateAlternateColorCodes('&', pluginPrefix + "&aPlugin successfully enabled!"));
         Bukkit.getConsoleSender().sendMessage(ChatColor.translateAlternateColorCodes('&', pluginPrefix + "Spigot page: &ahttps://www.spigotmc.org/resources/.57546/"));
-        Bukkit.getConsoleSender().sendMessage(ChatColor.translateAlternateColorCodes('&', pluginPrefix + "Author: &eRixafy &a[https://haelexuis.eu]"));
+        Bukkit.getConsoleSender().sendMessage(ChatColor.translateAlternateColorCodes('&', pluginPrefix + "Author: &eRixafy &a[https://rixafy.pro]"));
 
         Bukkit.getPluginManager().registerEvents(new CombatListener(this), this);
     }
