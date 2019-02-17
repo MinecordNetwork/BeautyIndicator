@@ -55,7 +55,6 @@ public class BeautyIndicator extends JavaPlugin {
         return combatController;
     }
 
-
     public PlayerController getPlayerController() {
         return playerController;
     }
