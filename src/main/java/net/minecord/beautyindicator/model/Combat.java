@@ -1,6 +1,7 @@
 package net.minecord.beautyindicator.model;
 
 public class Combat {
+
     private String nameToRestore;
     private int insertedSeconds;
     private int seconds;

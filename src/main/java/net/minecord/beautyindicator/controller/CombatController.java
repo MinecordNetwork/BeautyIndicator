@@ -14,6 +14,7 @@ import java.util.List;
 import java.util.concurrent.ConcurrentHashMap;
 
 public class CombatController implements Listener {
+
     private BeautyIndicator beautyIndicator;
     private BukkitTask combatControlling;
     private ConcurrentHashMap<LivingEntity, Combat> entitiesInCombat = new ConcurrentHashMap<>();

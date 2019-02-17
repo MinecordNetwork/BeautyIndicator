@@ -7,6 +7,7 @@ import org.bukkit.entity.Player;
 import org.bukkit.util.Vector;
 
 public class PlayerController {
+
     private BeautyIndicator beautyIndicator;
 
     public PlayerController(BeautyIndicator beautyIndicator) {

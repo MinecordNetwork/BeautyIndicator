@@ -15,6 +15,7 @@ import org.bukkit.event.player.PlayerInteractEvent;
 import org.bukkit.scheduler.BukkitRunnable;
 
 public class CombatListener implements Listener {
+
     private BeautyIndicator beautyIndicator;
 
     public CombatListener(BeautyIndicator beautyIndicator) {

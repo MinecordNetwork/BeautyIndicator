@@ -7,6 +7,7 @@ import org.bukkit.command.CommandExecutor;
 import org.bukkit.command.CommandSender;
 
 public class ReloadCommand implements CommandExecutor {
+
     private BeautyIndicator beautyIndicator;
 
     public ReloadCommand(BeautyIndicator beautyIndicator) {
