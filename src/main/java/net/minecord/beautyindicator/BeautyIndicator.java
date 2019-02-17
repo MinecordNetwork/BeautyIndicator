@@ -26,7 +26,7 @@ public class BeautyIndicator extends JavaPlugin {
     @Override
     public void onEnable() {
         combatController = new CombatController(this, getConfig());
-        playerController = new PlayerController(this);
+        playerController = new PlayerController();
 
         getCommand("beautyindicator").setExecutor(new ReloadCommand(this));
 

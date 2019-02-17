@@ -1,18 +1,11 @@
 package net.minecord.beautyindicator.controller;
 
-import net.minecord.beautyindicator.BeautyIndicator;
 import org.bukkit.entity.Entity;
 import org.bukkit.entity.LivingEntity;
 import org.bukkit.entity.Player;
 import org.bukkit.util.Vector;
 
 public class PlayerController {
-
-    private BeautyIndicator beautyIndicator;
-
-    public PlayerController(BeautyIndicator beautyIndicator) {
-        this.beautyIndicator = beautyIndicator;
-    }
 
     public LivingEntity getEntityLookingAt(Player player) {
         for (Entity entity : player.getNearbyEntities(25, 10, 25)) {
