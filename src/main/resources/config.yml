@@ -31,3 +31,7 @@ mob-multipliers:
 excluded-mobs:
 #- WITHER_SKELETON
 #- IRON_GOLEM
+
+# List of worlds where is mob indicator disabled
+excluded-worlds:
+#- world_nether

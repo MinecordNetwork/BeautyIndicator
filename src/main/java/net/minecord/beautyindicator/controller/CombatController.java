@@ -22,6 +22,7 @@ public class CombatController implements Listener {
     private int showTime;
     private String neutralColor;
     private List<String> excludedMobs;
+    private List<String> excludedWorlds;
     private boolean hitByItself;
     private boolean activeColorMultiple;
     private String firstActiveColor;
@@ -48,11 +49,12 @@ public class CombatController implements Listener {
     private void onLoad(FileConfiguration config) {
         character = config.getString("heart-character");
         showTime = config.getInt("show-time");
-        excludedMobs = config.getStringList("excluded-mobs");
         thirdActiveColor = config.getString("active-color");
         neutralColor = config.getString("neutral-color");
         excludedMobs = config.getStringList("excluded-mobs");
-        excludedMobs = config.getStringList("excluded-mobs");
+        excludedMobs.replaceAll(String::toUpperCase);
+        excludedWorlds = config.getStringList("excluded-worlds");
+        excludedWorlds.replaceAll(String::toLowerCase);
         hitByItself = config.getBoolean("hit-by-itself");
         activeColorMultiple = config.getBoolean("active-color-multiple.enabled");
         if (activeColorMultiple) {
@@ -99,7 +101,7 @@ public class CombatController implements Listener {
     }
 
     public void onHit(Entity entity) {
-        if (excludedMobs.contains(entity.getType().toString()))
+        if (excludedMobs.contains(entity.getType().toString()) || excludedWorlds.contains(entity.getWorld().getName().toLowerCase()))
             return;
 
         LivingEntity livingEntity = (LivingEntity) entity;
