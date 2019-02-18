@@ -25,6 +25,8 @@ public class BeautyIndicator extends JavaPlugin {
 
     @Override
     public void onEnable() {
+        saveDefaultConfig();
+
         combatController = new CombatController(this, getConfig());
         playerController = new PlayerController();
 
