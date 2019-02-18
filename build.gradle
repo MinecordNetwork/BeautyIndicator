@@ -2,7 +2,7 @@ plugins {
     id 'java'
 }
 
-def spigotVersion = "1.13-R0.2-SNAPSHOT"
+def spigotVersion = "1.13.2-R0.1-SNAPSHOT"
 def pluginName = "BeautyIndicator"
 
 group 'net.minecord'
@@ -12,7 +12,6 @@ sourceCompatibility = 1.8
 
 repositories {
     mavenCentral()
-    maven { url = 'https://hub.spigotmc.org/nexus/content/repositories/snapshots/' }
     maven { url = 'https://hub.spigotmc.org/nexus/content/repositories/snapshots/' }
     maven { url = 'https://oss.sonatype.org/content/repositories/snapshots' }
 }
@@ -26,7 +25,7 @@ dependencies {
 jar {
     archiveName pluginName + '-' + version + '.jar'
     manifest {
-        attributes 'Main-Class': group + '.beautyindicator.' + pluginName
+        attributes 'Main-Class': group + '.' + pluginName.toLowerCase() + '.' + pluginName
     }
 
     from { configurations.compile.collect { it.isDirectory() ? it : zipTree(it) } }
