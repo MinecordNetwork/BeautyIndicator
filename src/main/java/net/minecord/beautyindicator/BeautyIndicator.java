@@ -13,7 +13,7 @@ import org.bukkit.plugin.java.annotation.plugin.Description;
 import org.bukkit.plugin.java.annotation.plugin.Plugin;
 import org.bukkit.plugin.java.annotation.plugin.Website;
 
-@Plugin(name = "BeautyIndicator", version = "1.5")
+@Plugin(name = "BeautyIndicator", version = "1.6")
 @Description("Minecraft (Spigot/Bukkit) plugin for indicating mob health")
 @Commands(@Command(name = "beautyindicator", desc = "Help command"))
 @Website("https://minecord.net")

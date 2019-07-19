@@ -1,9 +1,12 @@
 package net.minecord.beautyindicator.listener;
 
 import net.minecord.beautyindicator.BeautyIndicator;
+import org.bukkit.Bukkit;
 import org.bukkit.Material;
 import org.bukkit.entity.ArmorStand;
+import org.bukkit.entity.Entity;
 import org.bukkit.entity.LivingEntity;
+import org.bukkit.entity.Player;
 import org.bukkit.event.EventHandler;
 import org.bukkit.event.EventPriority;
 import org.bukkit.event.Listener;
@@ -11,6 +14,7 @@ import org.bukkit.event.block.Action;
 import org.bukkit.event.entity.EntityDamageByEntityEvent;
 import org.bukkit.event.entity.EntityDamageEvent;
 import org.bukkit.event.entity.EntityDeathEvent;
+import org.bukkit.event.entity.PlayerDeathEvent;
 import org.bukkit.event.player.PlayerInteractEvent;
 import org.bukkit.scheduler.BukkitRunnable;
 
@@ -44,8 +48,9 @@ public class CombatListener implements Listener {
             return;
         if (!beautyIndicator.getCombatController().isHitByItself()) {
             LivingEntity livingEntity = (LivingEntity) e.getEntity();
-            if (livingEntity.getHealth() <= 0)
+            if (livingEntity.getHealth() <= 0) {
                 beautyIndicator.getCombatController().removeFromCombat(livingEntity);
+            }
         }
     }
 
@@ -63,6 +68,19 @@ public class CombatListener implements Listener {
     @EventHandler(priority = EventPriority.HIGHEST)
     public void onEntityDeath(EntityDeathEvent e) {
         beautyIndicator.getCombatController().removeFromCombat(e.getEntity());
+    }
+
+    @EventHandler(priority = EventPriority.HIGHEST)
+    public void onPlayerDeath(PlayerDeathEvent e) {
+        EntityDamageEvent event = e.getEntity().getLastDamageCause();
+
+        if (event instanceof EntityDamageByEntityEvent) {
+            EntityDamageByEntityEvent byEntityEvent = (EntityDamageByEntityEvent) event;
+            Entity killer = byEntityEvent.getDamager();
+            if (killer instanceof LivingEntity) {
+                beautyIndicator.getCombatController().removeFromCombat((LivingEntity) killer);
+            }
+        }
     }
 
     @EventHandler
