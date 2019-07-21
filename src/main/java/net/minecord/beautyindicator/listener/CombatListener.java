@@ -1,12 +1,8 @@
 package net.minecord.beautyindicator.listener;
 
 import net.minecord.beautyindicator.BeautyIndicator;
-import org.bukkit.Bukkit;
 import org.bukkit.Material;
-import org.bukkit.entity.ArmorStand;
-import org.bukkit.entity.Entity;
-import org.bukkit.entity.LivingEntity;
-import org.bukkit.entity.Player;
+import org.bukkit.entity.*;
 import org.bukkit.event.EventHandler;
 import org.bukkit.event.EventPriority;
 import org.bukkit.event.Listener;
@@ -73,10 +69,12 @@ public class CombatListener implements Listener {
     @EventHandler(priority = EventPriority.HIGHEST)
     public void onPlayerDeath(PlayerDeathEvent e) {
         EntityDamageEvent event = e.getEntity().getLastDamageCause();
-
         if (event instanceof EntityDamageByEntityEvent) {
             EntityDamageByEntityEvent byEntityEvent = (EntityDamageByEntityEvent) event;
             Entity killer = byEntityEvent.getDamager();
+            if (killer instanceof Projectile) {
+                killer = (LivingEntity) ((Projectile) killer).getShooter();
+            }
             if (killer instanceof LivingEntity) {
                 beautyIndicator.getCombatController().removeFromCombat((LivingEntity) killer);
             }
