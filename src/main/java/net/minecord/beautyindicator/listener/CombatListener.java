@@ -22,17 +22,21 @@ public class CombatListener implements Listener {
         this.beautyIndicator = beautyIndicator;
     }
 
-    @EventHandler(priority = EventPriority.LOWEST)
+    @EventHandler(priority = EventPriority.HIGHEST)
     public void onEntityHitByEntity(EntityDamageByEntityEvent e) {
-        if (!(e.getEntity() instanceof LivingEntity || e.getEntity() instanceof ArmorStand))
+        if (e.isCancelled())
+            return;
+        if (!(e.getEntity() instanceof LivingEntity) || e.getEntity() instanceof ArmorStand)
             return;
         if (!beautyIndicator.getCombatController().isHitByItself())
             beautyIndicator.getCombatController().onHit(e.getEntity());
     }
 
-    @EventHandler(priority = EventPriority.LOWEST)
+    @EventHandler(priority = EventPriority.HIGHEST)
     public void onEntityHit(EntityDamageEvent e) {
-        if (!(e.getEntity() instanceof LivingEntity || e.getEntity() instanceof ArmorStand))
+        if (e.isCancelled())
+            return;
+        if (!(e.getEntity() instanceof LivingEntity) || e.getEntity() instanceof ArmorStand)
             return;
         if (beautyIndicator.getCombatController().isHitByItself())
             beautyIndicator.getCombatController().onHit(e.getEntity());

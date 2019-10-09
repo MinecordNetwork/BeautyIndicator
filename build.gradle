@@ -2,11 +2,11 @@ plugins {
     id 'java'
 }
 
-def spigotVersion = "1.14.3-R0.1-SNAPSHOT"
+def spigotVersion = "1.14.4-R0.1-SNAPSHOT"
 def pluginName = "BeautyIndicator"
 
 group 'net.minecord'
-version '1.6-SNAPSHOT'
+version '1.7-SNAPSHOT'
 
 sourceCompatibility = 1.8
 
