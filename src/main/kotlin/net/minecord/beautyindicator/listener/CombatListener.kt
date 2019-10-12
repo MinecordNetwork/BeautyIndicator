@@ -3,7 +3,6 @@ package net.minecord.beautyindicator.listener
 import net.minecord.beautyindicator.BeautyIndicator
 import org.bukkit.Material
 import org.bukkit.entity.ArmorStand
-import org.bukkit.entity.Entity
 import org.bukkit.entity.LivingEntity
 import org.bukkit.entity.Projectile
 import org.bukkit.event.EventHandler
@@ -24,8 +23,8 @@ class CombatListener(private val beautyIndicator: BeautyIndicator) : Listener {
             return
         if (e.entity !is LivingEntity || e.entity is ArmorStand)
             return
-        if (!beautyIndicator.combatController!!.isHitByItself)
-            beautyIndicator.combatController!!.onHit(e.entity as LivingEntity)
+        if (!beautyIndicator.combatController.isHitByItself)
+            beautyIndicator.combatController.onHit(e.entity as LivingEntity)
     }
 
     @EventHandler(priority = EventPriority.HIGHEST)
@@ -34,18 +33,18 @@ class CombatListener(private val beautyIndicator: BeautyIndicator) : Listener {
             return
         if (e.entity !is LivingEntity || e.entity is ArmorStand)
             return
-        if (beautyIndicator.combatController!!.isHitByItself)
-            beautyIndicator.combatController!!.onHit(e.entity as LivingEntity)
+        if (beautyIndicator.combatController.isHitByItself)
+            beautyIndicator.combatController.onHit(e.entity as LivingEntity)
     }
 
     @EventHandler(priority = EventPriority.HIGHEST)
     fun onEntityHitByEntityCheck(e: EntityDamageByEntityEvent) {
         if (!(e.entity is LivingEntity || e.entity is ArmorStand))
             return
-        if (!beautyIndicator.combatController!!.isHitByItself) {
+        if (!beautyIndicator.combatController.isHitByItself) {
             val livingEntity = e.entity as LivingEntity
             if (livingEntity.health <= 0) {
-                beautyIndicator.combatController!!.removeFromCombat(livingEntity)
+                beautyIndicator.combatController.removeFromCombat(livingEntity)
             }
         }
     }
@@ -54,16 +53,16 @@ class CombatListener(private val beautyIndicator: BeautyIndicator) : Listener {
     fun onEntityHitCheck(e: EntityDamageEvent) {
         if (e.entity !is LivingEntity)
             return
-        if (beautyIndicator.combatController!!.isHitByItself) {
+        if (beautyIndicator.combatController.isHitByItself) {
             val livingEntity = e.entity as LivingEntity
             if (livingEntity.health <= 0)
-                beautyIndicator.combatController!!.removeFromCombat(livingEntity)
+                beautyIndicator.combatController.removeFromCombat(livingEntity)
         }
     }
 
     @EventHandler(priority = EventPriority.HIGHEST)
     fun onEntityDeath(e: EntityDeathEvent) {
-        beautyIndicator.combatController!!.removeFromCombat(e.entity)
+        beautyIndicator.combatController.removeFromCombat(e.entity)
     }
 
     @EventHandler(priority = EventPriority.HIGHEST)
@@ -76,7 +75,7 @@ class CombatListener(private val beautyIndicator: BeautyIndicator) : Listener {
                 killer = killer.shooter as LivingEntity
             }
             if (killer is LivingEntity) {
-                beautyIndicator.combatController!!.removeFromCombat(killer)
+                beautyIndicator.combatController.removeFromCombat(killer)
             }
         }
     }
@@ -89,9 +88,9 @@ class CombatListener(private val beautyIndicator: BeautyIndicator) : Listener {
                     val nearbyEntities = e.player.getNearbyEntities(25.0, 10.0, 25.0)
                     object : BukkitRunnable() {
                         override fun run() {
-                            val livingEntity = beautyIndicator.playerController!!.getEntityLookingAt(e.player, nearbyEntities)
+                            val livingEntity = beautyIndicator.playerController.getEntityLookingAt(e.player, nearbyEntities)
                             if (livingEntity != null)
-                                beautyIndicator.combatController!!.onHit(livingEntity)
+                                beautyIndicator.combatController.onHit(livingEntity)
                         }
                     }.runTaskAsynchronously(beautyIndicator)
                 }

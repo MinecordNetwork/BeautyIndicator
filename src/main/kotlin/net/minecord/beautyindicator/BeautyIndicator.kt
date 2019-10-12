@@ -19,9 +19,9 @@ import org.bukkit.plugin.java.annotation.plugin.Website
 @Website("https://minecord.net")
 class BeautyIndicator : JavaPlugin() {
     private val pluginPrefix = "&b[BeautyIndicator] &7"
-    var combatController: CombatController? = null
+    lateinit var combatController: CombatController
         private set
-    var playerController: PlayerController? = null
+    lateinit var playerController: PlayerController
         private set
 
     override fun onEnable() {
@@ -43,11 +43,11 @@ class BeautyIndicator : JavaPlugin() {
         saveDefaultConfig()
         reloadConfig()
 
-        combatController!!.onReload(config)
+        combatController.onReload(config)
     }
 
     override fun onDisable() {
-        combatController!!.onDisable()
+        combatController.onDisable()
 
         Bukkit.getConsoleSender().sendMessage(ChatColor.translateAlternateColorCodes('&', "$pluginPrefix&6Plugin successfully disabled!"))
     }
