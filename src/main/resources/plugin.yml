@@ -1,6 +1,6 @@
 main: net.minecord.beautyindicator.BeautyIndicator
 name: BeautyIndicator
-version: '1.7'
+version: '1.8'
 description: Minecraft (Spigot/Bukkit) plugin for indicating mob health
 website: https://minecord.net
 commands:
