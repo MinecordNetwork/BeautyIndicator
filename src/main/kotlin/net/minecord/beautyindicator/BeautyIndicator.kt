@@ -30,7 +30,7 @@ class BeautyIndicator : JavaPlugin() {
         combatController = CombatController(this, config)
         playerController = PlayerController()
 
-        getCommand("beautyindicator")!!.setExecutor(ReloadCommand(this))
+        getCommand("beautyindicator")!!.executor = ReloadCommand(this)
 
         Bukkit.getConsoleSender().sendMessage(ChatColor.translateAlternateColorCodes('&', "$pluginPrefix&aPlugin successfully enabled!"))
         Bukkit.getConsoleSender().sendMessage(ChatColor.translateAlternateColorCodes('&', pluginPrefix + "Spigot page: &ahttps://www.spigotmc.org/resources/.57546/"))
