@@ -1,11 +1,12 @@
 package net.minecord.beautyindicator.controller
 
+import org.bukkit.entity.Entity
 import org.bukkit.entity.LivingEntity
 import org.bukkit.entity.Player
 
 class PlayerController {
-    fun getEntityLookingAt(player: Player): LivingEntity? {
-        for (entity in player.getNearbyEntities(25.0, 10.0, 25.0)) {
+    fun getEntityLookingAt(player: Player, nearbyEntities : List<Entity>): LivingEntity? {
+        for (entity in nearbyEntities) {
             if (entity !is LivingEntity)
                 continue
 

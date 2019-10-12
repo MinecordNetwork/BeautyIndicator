@@ -3,6 +3,7 @@ package net.minecord.beautyindicator.listener
 import net.minecord.beautyindicator.BeautyIndicator
 import org.bukkit.Material
 import org.bukkit.entity.ArmorStand
+import org.bukkit.entity.Entity
 import org.bukkit.entity.LivingEntity
 import org.bukkit.entity.Projectile
 import org.bukkit.event.EventHandler
@@ -85,9 +86,10 @@ class CombatListener(private val beautyIndicator: BeautyIndicator) : Listener {
         if (e.action == Action.RIGHT_CLICK_AIR) {
             if (e.player.inventory.itemInMainHand.type == Material.BOW || e.player.inventory.itemInOffHand.type == Material.BOW) {
                 if (e.player.inventory.contains(Material.ARROW)) {
+                    val nearbyEntities = e.player.getNearbyEntities(25.0, 10.0, 25.0)
                     object : BukkitRunnable() {
                         override fun run() {
-                            val livingEntity = beautyIndicator.playerController!!.getEntityLookingAt(e.player)
+                            val livingEntity = beautyIndicator.playerController!!.getEntityLookingAt(e.player, nearbyEntities)
                             if (livingEntity != null)
                                 beautyIndicator.combatController!!.onHit(livingEntity)
                         }
