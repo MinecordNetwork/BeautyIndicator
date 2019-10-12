@@ -32,11 +32,11 @@ class BeautyIndicator : JavaPlugin() {
         combatController = CombatController(this, config)
         playerController = PlayerController()
 
-        getCommand("beautyindicator")!!.executor = ReloadCommand(this)
+        getCommand("beautyindicator")!!.setExecutor(ReloadCommand(this))
 
-        Bukkit.getConsoleSender().sendMessage(ChatColor.translateAlternateColorCodes('&', "$pluginPrefix&aPlugin successfully enabled!"))
-        Bukkit.getConsoleSender().sendMessage(ChatColor.translateAlternateColorCodes('&', pluginPrefix + "Spigot page: &ahttps://www.spigotmc.org/resources/.57546/"))
-        Bukkit.getConsoleSender().sendMessage(ChatColor.translateAlternateColorCodes('&', pluginPrefix + "Author: &eRixafy &a[https://rixafy.pro]"))
+        Bukkit.getConsoleSender().sendMessage("$pluginPrefix&aPlugin successfully enabled!".colored())
+        Bukkit.getConsoleSender().sendMessage("${pluginPrefix}Spigot page: &ahttps://www.spigotmc.org/resources/.57546/".colored())
+        Bukkit.getConsoleSender().sendMessage("${pluginPrefix}Author: &eRixafy &a[https://rixafy.pro]".colored())
 
         Bukkit.getPluginManager().registerEvents(CombatListener(this), this)
     }
@@ -51,6 +51,6 @@ class BeautyIndicator : JavaPlugin() {
     override fun onDisable() {
         combatController.onDisable()
 
-        Bukkit.getConsoleSender().sendMessage(ChatColor.translateAlternateColorCodes('&', "$pluginPrefix&6Plugin successfully disabled!"))
+        Bukkit.getConsoleSender().sendMessage("$pluginPrefix&6Plugin successfully disabled!".colored())
     }
 }

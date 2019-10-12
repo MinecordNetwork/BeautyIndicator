@@ -1,6 +1,7 @@
 package net.minecord.beautyindicator.command
 
 import net.minecord.beautyindicator.BeautyIndicator
+import net.minecord.beautyindicator.colored
 import org.bukkit.ChatColor
 import org.bukkit.command.Command
 import org.bukkit.command.CommandExecutor
@@ -10,7 +11,7 @@ class ReloadCommand(private val beautyIndicator: BeautyIndicator) : CommandExecu
     override fun onCommand(commandSender: CommandSender, command: Command, s: String, strings: Array<String>): Boolean {
         if (commandSender.hasPermission("net.minecord.beautyindicator.reload") && strings.isNotEmpty() && strings[0] == "reload") {
             beautyIndicator.onReload()
-            commandSender.sendMessage(ChatColor.translateAlternateColorCodes('&', "&b[BeautyIndicator] &aPlugin was successfully reloaded"))
+            commandSender.sendMessage("&b[BeautyIndicator] &aPlugin was successfully reloaded".colored())
             return true
         }
         return false

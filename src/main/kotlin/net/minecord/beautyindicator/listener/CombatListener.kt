@@ -19,28 +19,27 @@ import org.bukkit.scheduler.BukkitRunnable
 class CombatListener(private val beautyIndicator: BeautyIndicator) : Listener {
     @EventHandler(priority = EventPriority.HIGHEST)
     fun onEntityHitByEntity(e: EntityDamageByEntityEvent) {
-        if (e.isCancelled)
-            return
-        if (e.entity !is LivingEntity || e.entity is ArmorStand)
-            return
+        if (e.isCancelled) return
+
+        val entity = e.entity
+        if (entity !is LivingEntity || entity is ArmorStand) return
         if (!beautyIndicator.combatController.isHitByItself)
-            beautyIndicator.combatController.onHit(e.entity as LivingEntity)
+            beautyIndicator.combatController.onHit(entity)
     }
 
     @EventHandler(priority = EventPriority.HIGHEST)
     fun onEntityHit(e: EntityDamageEvent) {
-        if (e.isCancelled)
-            return
-        if (e.entity !is LivingEntity || e.entity is ArmorStand)
-            return
+        if (e.isCancelled) return
+
+        val entity = e.entity
+        if (entity !is LivingEntity || entity is ArmorStand) return
         if (beautyIndicator.combatController.isHitByItself)
-            beautyIndicator.combatController.onHit(e.entity as LivingEntity)
+            beautyIndicator.combatController.onHit(entity)
     }
 
     @EventHandler(priority = EventPriority.HIGHEST)
     fun onEntityHitByEntityCheck(e: EntityDamageByEntityEvent) {
-        if (!(e.entity is LivingEntity || e.entity is ArmorStand))
-            return
+        if (!(e.entity is LivingEntity || e.entity is ArmorStand)) return
         if (!beautyIndicator.combatController.isHitByItself) {
             val livingEntity = e.entity as LivingEntity
             if (livingEntity.health <= 0) {
@@ -51,12 +50,11 @@ class CombatListener(private val beautyIndicator: BeautyIndicator) : Listener {
 
     @EventHandler(priority = EventPriority.HIGHEST)
     fun onEntityHitCheck(e: EntityDamageEvent) {
-        if (e.entity !is LivingEntity)
-            return
+        val entity = e.entity as? LivingEntity ?: return
+
         if (beautyIndicator.combatController.isHitByItself) {
-            val livingEntity = e.entity as LivingEntity
-            if (livingEntity.health <= 0)
-                beautyIndicator.combatController.removeFromCombat(livingEntity)
+            if (entity.health <= 0)
+                beautyIndicator.combatController.removeFromCombat(entity)
         }
     }
 
@@ -69,8 +67,7 @@ class CombatListener(private val beautyIndicator: BeautyIndicator) : Listener {
     fun onPlayerDeath(e: PlayerDeathEvent) {
         val event = e.entity.lastDamageCause
         if (event is EntityDamageByEntityEvent) {
-            val byEntityEvent = event as EntityDamageByEntityEvent?
-            var killer = byEntityEvent!!.damager
+            var killer = event.damager
             if (killer is Projectile) {
                 killer = killer.shooter as LivingEntity
             }

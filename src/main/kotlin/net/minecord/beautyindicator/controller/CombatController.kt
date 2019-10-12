@@ -1,6 +1,7 @@
 package net.minecord.beautyindicator.controller
 
 import net.minecord.beautyindicator.BeautyIndicator
+import net.minecord.beautyindicator.colored
 import net.minecord.beautyindicator.model.Combat
 import org.bukkit.ChatColor
 import org.bukkit.attribute.Attribute
@@ -12,13 +13,13 @@ import org.bukkit.scheduler.BukkitTask
 import java.util.concurrent.ConcurrentHashMap
 
 class CombatController(private val beautyIndicator: BeautyIndicator, config: FileConfiguration) {
-    private var combatControlling: BukkitTask? = null
+    private lateinit var combatControlling: BukkitTask
     private val entitiesInCombat = ConcurrentHashMap<LivingEntity, Combat>()
     private var character: String? = null
     private var showTime: Int = 0
     private var neutralColor: String? = null
-    private var excludedMobs: MutableList<String>? = null
-    private var excludedWorlds: MutableList<String>? = null
+    private lateinit var excludedMobs: MutableList<String>
+    private lateinit var excludedWorlds: MutableList<String>
     var isHitByItself: Boolean = false
         private set
     private var activeColorMultiple: Boolean = false
@@ -33,7 +34,7 @@ class CombatController(private val beautyIndicator: BeautyIndicator, config: Fil
     fun onDisable() {
         entitiesInCombat.forEach { (entity, entityCombat) -> entity.customName = entityCombat.nameToRestore }
         entitiesInCombat.clear()
-        combatControlling!!.cancel()
+        combatControlling.cancel()
     }
 
     fun onReload(config: FileConfiguration) {
@@ -47,9 +48,9 @@ class CombatController(private val beautyIndicator: BeautyIndicator, config: Fil
         thirdActiveColor = config.getString("active-color")
         neutralColor = config.getString("neutral-color")
         excludedMobs = config.getStringList("excluded-mobs")
-        excludedMobs!!.replaceAll { it.toUpperCase() }
+        excludedMobs.replaceAll { it.toUpperCase() }
         excludedWorlds = config.getStringList("excluded-worlds")
-        excludedWorlds!!.replaceAll { it.toLowerCase() }
+        excludedWorlds.replaceAll { it.toLowerCase() }
         isHitByItself = config.getBoolean("hit-by-itself")
         activeColorMultiple = config.getBoolean("active-color-multiple.enabled")
         if (activeColorMultiple) {
@@ -78,21 +79,24 @@ class CombatController(private val beautyIndicator: BeautyIndicator, config: Fil
     private fun addToCombat(entity: LivingEntity, entityName: String?) {
         if (entity.isDead)
             return
-        if (!entitiesInCombat.containsKey(entity))
+
+        val combat = entitiesInCombat[entity]
+        if (combat == null) {
             entitiesInCombat[entity] = Combat(entityName, showTime)
-        else
-            entitiesInCombat[entity]!!.resetSeconds()
+        } else {
+            combat.resetSeconds()
+        }
     }
 
     fun removeFromCombat(entity: LivingEntity) {
-        entity.customName = entitiesInCombat[entity]?.nameToRestore
+        val combat = entitiesInCombat.remove(entity)
+        entity.customName = combat?.nameToRestore
         if (entity.customName == null)
             entity.isCustomNameVisible = false
-        entitiesInCombat.remove(entity)
     }
 
     fun onHit(livingEntity: LivingEntity) {
-        if (excludedMobs!!.contains(livingEntity.type.toString()) || excludedWorlds!!.contains(livingEntity.world.name.toLowerCase()))
+        if (livingEntity.type.toString() in excludedMobs || livingEntity.world.name.toLowerCase() in excludedWorlds)
             return
 
         if (livingEntity.health <= 0 || livingEntity.isDead) {
@@ -102,35 +106,35 @@ class CombatController(private val beautyIndicator: BeautyIndicator, config: Fil
 
         object : BukkitRunnable() {
             override fun run() {
-                val hearts = StringBuilder()
+                val hearts = buildString {
+                    var multiplier = beautyIndicator.config.getDouble("mob-multipliers." + livingEntity.type.toString())
+                    if (multiplier == 0.0) {
+                        multiplier = 1.0
+                    }
 
-                var multiplier = beautyIndicator.config.getDouble("mob-multipliers." + livingEntity.type.toString())
-                if (multiplier == 0.0) {
-                    multiplier = 1.0
+                    val maxHealth =
+                        (livingEntity.getAttribute(Attribute.GENERIC_MAX_HEALTH)!!.value.toInt() / 2 * multiplier).toInt()
+                    val newHealth = (livingEntity.health.toInt() / 2 * multiplier).toInt()
+                    val leftHealth = maxHealth - newHealth
+
+                    var newColor = thirdActiveColor
+
+                    if (activeColorMultiple) {
+                        if (newHealth <= maxHealth * 0.33)
+                            newColor = firstActiveColor
+                        else if (newHealth <= maxHealth * 0.66)
+                            newColor = secondActiveColor
+                    }
+
+                    for (i in newHealth downTo 1)
+                        append(newColor).append(character)
+                    for (i in leftHealth downTo 1)
+                        append(neutralColor).append(character)
+                    append(" ")
                 }
 
-                val maxHealth = (livingEntity.getAttribute(Attribute.GENERIC_MAX_HEALTH)!!.value.toInt() / 2 * multiplier).toInt()
-                val newHealth = (livingEntity.health.toInt() / 2 * multiplier).toInt()
-                val leftHealth = maxHealth - newHealth
-
-                var newColor = thirdActiveColor
-
-                if (activeColorMultiple) {
-                    if (newHealth <= maxHealth * 0.33)
-                        newColor = firstActiveColor
-                    else if (newHealth <= maxHealth * 0.66)
-                        newColor = secondActiveColor
-                }
-
-                for (i in newHealth downTo 1)
-                    hearts.append(newColor).append(character)
-                for (i in leftHealth downTo 1)
-                    hearts.append(neutralColor).append(character)
-                hearts.append(" ")
-
-                addToCombat(livingEntity, if (livingEntity.customName == null) livingEntity.customName else if (ChatColor.stripColor(livingEntity.customName) == ChatColor.stripColor(hearts.toString())) null else livingEntity.customName)
-
-                livingEntity.customName = ChatColor.translateAlternateColorCodes('&', hearts.toString())
+                addToCombat(livingEntity, if (livingEntity.customName == null) livingEntity.customName else if (ChatColor.stripColor(livingEntity.customName) == ChatColor.stripColor(hearts)) null else livingEntity.customName)
+                livingEntity.customName = hearts.colored()
                 livingEntity.isCustomNameVisible = true
             }
         }.runTaskAsynchronously(beautyIndicator)
