@@ -11,7 +11,7 @@ import org.bukkit.scheduler.BukkitRunnable
 import org.bukkit.scheduler.BukkitTask
 import java.util.concurrent.ConcurrentHashMap
 
-class CombatController(private val beautyIndicator: BeautyIndicator, config: FileConfiguration) : Listener {
+class CombatController(private val beautyIndicator: BeautyIndicator, config: FileConfiguration) {
     private var combatControlling: BukkitTask? = null
     private val entitiesInCombat = ConcurrentHashMap<LivingEntity, Combat>()
     private var character: String? = null
