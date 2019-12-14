@@ -14,9 +14,9 @@ import org.bukkit.plugin.java.annotation.plugin.Plugin
 import org.bukkit.plugin.java.annotation.plugin.Website
 import org.bukkit.plugin.java.annotation.plugin.author.Author
 
-@Plugin(name = "BeautyIndicator", version = "1.8")
+@Plugin(name = "BeautyIndicator", version = "1.9")
 @Description("Minecraft (Spigot/Bukkit) plugin for indicating mob health")
-@Commands(Command(name = "net/minecord/beautyindicator", desc = "Help command"))
+@Commands(Command(name = "beautyindicator", desc = "Help command"))
 @Website("https://minecord.net")
 @Author("Rixafy")
 class BeautyIndicator : JavaPlugin() {
@@ -32,7 +32,7 @@ class BeautyIndicator : JavaPlugin() {
         combatController = CombatController(this, config)
         playerController = PlayerController()
 
-        getCommand("beautyindicator")!!.executor = ReloadCommand(this)
+        getCommand("beautyindicator")!!.setExecutor(ReloadCommand(this))
 
         Bukkit.getConsoleSender().sendMessage("$pluginPrefix&aPlugin successfully enabled!".colored())
         Bukkit.getConsoleSender().sendMessage("${pluginPrefix}Spigot page: &ahttps://www.spigotmc.org/resources/.57546/".colored())
