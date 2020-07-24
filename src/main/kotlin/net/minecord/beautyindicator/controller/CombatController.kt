@@ -88,6 +88,10 @@ class CombatController(private val beautyIndicator: BeautyIndicator, config: Fil
         }
     }
 
+    fun isInCombat(entity: LivingEntity): Boolean {
+        return entitiesInCombat.containsKey(entity)
+    }
+
     fun removeFromCombat(entity: LivingEntity) {
         val combat = entitiesInCombat.remove(entity)
         entity.customName = combat?.nameToRestore

@@ -3,9 +3,9 @@ package net.minecord.beautyindicator
 import net.minecord.beautyindicator.command.ReloadCommand
 import net.minecord.beautyindicator.controller.CombatController
 import net.minecord.beautyindicator.controller.PlayerController
+import net.minecord.beautyindicator.controller.WorldController
 import net.minecord.beautyindicator.listener.CombatListener
 import org.bukkit.Bukkit
-import org.bukkit.ChatColor
 import org.bukkit.plugin.java.JavaPlugin
 import org.bukkit.plugin.java.annotation.command.Command
 import org.bukkit.plugin.java.annotation.command.Commands
@@ -14,7 +14,7 @@ import org.bukkit.plugin.java.annotation.plugin.Plugin
 import org.bukkit.plugin.java.annotation.plugin.Website
 import org.bukkit.plugin.java.annotation.plugin.author.Author
 
-@Plugin(name = "BeautyIndicator", version = "1.9")
+@Plugin(name = "BeautyIndicator", version = "1.10")
 @Description("Minecraft (Spigot/Bukkit) plugin for indicating mob health")
 @Commands(Command(name = "beautyindicator", desc = "Help command"))
 @Website("https://minecord.net")
@@ -25,12 +25,15 @@ class BeautyIndicator : JavaPlugin() {
         private set
     lateinit var playerController: PlayerController
         private set
+    lateinit var worldController: WorldController
+        private set
 
     override fun onEnable() {
         saveDefaultConfig()
 
         combatController = CombatController(this, config)
         playerController = PlayerController()
+        worldController = WorldController(this, config)
 
         getCommand("beautyindicator")!!.setExecutor(ReloadCommand(this))
 
@@ -46,6 +49,7 @@ class BeautyIndicator : JavaPlugin() {
         reloadConfig()
 
         combatController.onReload(config)
+        worldController.onReload()
     }
 
     override fun onDisable() {
