@@ -1,10 +1,8 @@
 package net.minecord.beautyindicator.controller
 
 import net.minecord.beautyindicator.BeautyIndicator
-import net.minecord.beautyindicator.colored
 import org.bukkit.Bukkit
 import org.bukkit.ChatColor
-import org.bukkit.attribute.Attribute
 import org.bukkit.configuration.file.FileConfiguration
 import org.bukkit.scheduler.BukkitRunnable
 
