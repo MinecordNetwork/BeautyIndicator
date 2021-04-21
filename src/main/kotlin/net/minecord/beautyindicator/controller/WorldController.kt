@@ -25,7 +25,7 @@ class WorldController(private val beautyIndicator: BeautyIndicator, private val 
                         if (!beautyIndicator.combatController.isInCombat(entity)) {
                             val name = entity.customName
                             if (name != null && name.contains(character)) {
-                                if (ChatColor.stripColor(name)?.replace(character, "")?.trim() == "") {
+                                if (ChatColor.stripColor(name)?.replace(character, "")?.replace(" ", "") == "") {
                                     entity.customName = null
                                     entity.isCustomNameVisible = false
                                 }
