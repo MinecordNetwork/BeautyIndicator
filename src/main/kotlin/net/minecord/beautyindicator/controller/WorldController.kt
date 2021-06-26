@@ -34,6 +34,6 @@ class WorldController(private val beautyIndicator: BeautyIndicator, private val 
                     }
                 }
             }
-      }.runTaskTimerAsynchronously(beautyIndicator, 20, 120*20)
+      }.runTaskTimer(beautyIndicator, 20, 120*20)
     }
 }
