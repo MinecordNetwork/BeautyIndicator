@@ -1,0 +1,11 @@
+main: net.minecord.beautyindicator.BeautyIndicator
+name: BeautyIndicator
+version: ${version}
+description: "Minecraft (Spigot/Bukkit) plugin for indicating mob health"
+author: Rixafy
+website: https://minecord.net
+commands:
+  beautyindicator:
+    description: Help command
+permissions: {}
+api-version: '1.17'

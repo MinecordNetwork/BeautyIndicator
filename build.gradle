@@ -1,6 +1,5 @@
 plugins {
     id "org.jetbrains.kotlin.jvm" version "1.3.21"
-    id "org.jetbrains.kotlin.kapt" version "1.3.21"
 }
 
 group "net.minecord"
@@ -15,13 +14,13 @@ repositories {
 
 dependencies {
     compileOnly group: "org.spigotmc", name: "spigot-api", version: "1.17-R0.1-SNAPSHOT"
-    compileOnly group: "org.spigotmc", name: "plugin-annotations", version: "1.2.3-SNAPSHOT"
     compile group: "org.jetbrains.kotlin", name: "kotlin-stdlib-jdk8"
-    kapt group: group, name: project.name, version: project.version.toString()
 }
 
 processResources {
-    filter { String line -> line.replace('${version}', project.version.toString()) }
+    filter {
+        String line -> line.replace('${version}', project.version.toString()).replace('${name}', project.name).replace('${description}', project.description)
+    }
 }
 
 jar {
