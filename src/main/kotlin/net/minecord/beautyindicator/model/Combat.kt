@@ -1,6 +1,6 @@
 package net.minecord.beautyindicator.model
 
-class Combat(val nameToRestore: String?, private val insertedSeconds: Int) {
+class Combat(val nameToRestore: String?, val customNameVisibleToRestore: Boolean, private val insertedSeconds: Int) {
     var seconds: Int = 0
         private set
 

@@ -82,7 +82,7 @@ class CombatController(private val beautyIndicator: BeautyIndicator, config: Fil
 
         val combat = entitiesInCombat[entity]
         if (combat == null) {
-            entitiesInCombat[entity] = Combat(entityName, showTime)
+            entitiesInCombat[entity] = Combat(entityName, entity.isCustomNameVisible, showTime)
         } else {
             combat.resetSeconds()
         }
@@ -93,8 +93,9 @@ class CombatController(private val beautyIndicator: BeautyIndicator, config: Fil
     }
 
     fun removeFromCombat(entity: LivingEntity) {
-        val combat = entitiesInCombat.remove(entity)
-        entity.customName = combat?.nameToRestore
+        val combat = entitiesInCombat.remove(entity)!!
+        entity.customName = combat.nameToRestore
+        entity.isCustomNameVisible = combat.customNameVisibleToRestore
         if (entity.customName == null)
             entity.isCustomNameVisible = false
     }
