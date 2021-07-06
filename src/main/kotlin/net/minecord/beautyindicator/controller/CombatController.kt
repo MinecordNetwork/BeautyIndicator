@@ -93,9 +93,11 @@ class CombatController(private val beautyIndicator: BeautyIndicator, config: Fil
     }
 
     fun removeFromCombat(entity: LivingEntity) {
-        val combat = entitiesInCombat.remove(entity)!!
-        entity.customName = combat.nameToRestore
-        entity.isCustomNameVisible = combat.customNameVisibleToRestore
+        val combat = entitiesInCombat.remove(entity)
+        if (combat != null) {
+            entity.customName = combat.nameToRestore
+            entity.isCustomNameVisible = combat.customNameVisibleToRestore
+        }
         if (entity.customName == null)
             entity.isCustomNameVisible = false
     }
